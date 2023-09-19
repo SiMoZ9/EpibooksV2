@@ -5,7 +5,8 @@ That's a project from Epicode - Web Developer PT course
 
 # Needed dependeces
 
-\- react-boostrap
+\
+- react-boostrap
 - boostrap
 - nanoid
 - react-spinner
