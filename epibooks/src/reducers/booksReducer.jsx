@@ -20,7 +20,6 @@ async (url) => {
     }
 )
 
-
 const bookSlice = createSlice({
     name: 'getBooks',
     initialState,
