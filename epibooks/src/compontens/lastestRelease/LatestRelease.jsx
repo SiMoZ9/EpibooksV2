@@ -39,7 +39,6 @@ const LatestRelease = () => {
     }, []);
 
     return (
-
         <div>
             {error && <h1>OOps errore durante il caricamento dei libri...</h1>}
             {loading && !error && (
@@ -70,24 +69,17 @@ const LatestRelease = () => {
             <div className="container">
                 <div className='row d-flex flex-wrap'>
                     <div className='col d-flex flex-wrap gap-5'>
-
-                        {dispatch(setFilteredBooks([...data])) && console.log(filterData)}
-
-                        {!loading && !error && data && data.map((book) => {
-                            return (
-                                    filterData.map((book => (
-                                        <BookCard
-                                            key={nanoid()}
-                                            title={book.title}
-                                            category={book.category}
-                                            btn="Vai al prodotto"
-                                            img={book.img}
-                                            asin={book.asin}
-                                        />
-                                    )))
-                            )
-
-                        })}
+                        {!loading && !error && data && filterData.map((book => (
+                            <BookCard
+                                key={nanoid()}
+                                title={book.title}
+                                category={book.category}
+                                btn="Vai al prodotto"
+                                img={book.img}
+                                asin={book.asin}
+                            />
+                        )))
+                        }
                     </div>
                 </div>
 
