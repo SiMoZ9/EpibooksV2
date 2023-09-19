@@ -8,8 +8,8 @@ import {
 const Welcome = () => {
     return (
 
-        <main role="main" className="pt-5">
-                <Container>
+        <main role="main" className="p-5 m-4 bg-img white-text rounded">
+                <Container className="centering-text">
                     <h1 className="display-3">Benvenuto in Epibooks!</h1>
                     <p>
                         Dove la realtà incontra la fantasia

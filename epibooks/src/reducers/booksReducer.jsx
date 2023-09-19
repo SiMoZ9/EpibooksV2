@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import useFetch from "../hooks/useFetch"; // crea una fetta di store dedicata allo stato
+
+// crea una fetta di store dedicata allo stato
 
 const initialState = {
     books: [],
@@ -9,9 +10,9 @@ const initialState = {
 
 export const getData = createAsyncThunk(
     'books/getAllBooks',
-async () => {
+async (url) => {
     try {
-        const res = await fetch("https://epibooks.onrender.com")
+        const res = await fetch(url)
         return await res.json()
     } catch (e) {
         console.log(e)

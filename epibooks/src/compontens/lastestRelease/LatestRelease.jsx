@@ -17,14 +17,14 @@ const LatestRelease = () => {
 
 
     useEffect(() => {
-        dispatch(getData())
+        dispatch(getData("https://epibooks.onrender.com"))
     }, []);
 
     return (
         <div>
             {error && <h1>OOps errore durante il caricamento dei libri...</h1>}
             {loading && !error && (
-                <BeatLoader
+                <BeatLoader className="d-flex justify-content-center p-5"
                     loading={loading}
                     size={150}
                     aria-label="Loading Spinner"
@@ -34,13 +34,13 @@ const LatestRelease = () => {
             <div className="container">
                 <div className='row d-flex flex-wrap'>
                     <div className='col d-flex flex-wrap gap-5'>
-                        {!loading && !error && data && data.slice(0,5).map((book) => {
+                        {!loading && !error && data && data.map((book) => {
                             return (
                                 <BookCard
                                     key={nanoid()}
                                     title={book.title}
                                     category={book.category}
-                                    btn="CIAO"
+                                    btn="Vai al prodotto"
                                     img={book.img}
                                     asin={book.asin}
                                 />

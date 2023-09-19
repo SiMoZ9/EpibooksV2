@@ -1,3 +1,21 @@
-footer {
-    margin-top: 10px;
+.m-size {
+    width: 50%;
+    height: 50%;
+}
+
+.centering-text {
+    text-align: center;
+}
+
+.bg-img {
+    background-image: url(../imgs/welcome-bg.jpg);
+    object-fit: cover;
+}
+
+.rounded {
+    border-radius: 50%;
+}
+
+.white-text {
+    color: white;
 }
