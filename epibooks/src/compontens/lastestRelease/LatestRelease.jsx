@@ -23,7 +23,7 @@ const LatestRelease = () => {
     const filterData = useSelector(filteredBooks)
 
     const getValueFromForm = (value) => {
-        if (formData === "") dispatch(setFilteredBooks(data))
+        if (formData === "") dispatch(setFilteredBooks([...data]))
         dispatch(setFormValue(value))
     }
 
@@ -35,7 +35,6 @@ const LatestRelease = () => {
 
     useEffect(() => {
         dispatch(getData("https://epibooks.onrender.com"))
-
     }, []);
 
     return (
@@ -50,10 +49,11 @@ const LatestRelease = () => {
                 />
             )}
 
-            <Form onSubmit={submitFiltered}>
+            <Form onSubmit={submitFiltered} className="d-flex flex-wrap justify-content-center m-5">
                 <Row>
                     <Col xs="auto">
                         <Form.Control
+                            name="formData"
                             type="text"
                             placeholder="Cerca libri"
                             className=" mr-sm-2"
@@ -69,6 +69,7 @@ const LatestRelease = () => {
             <div className="container">
                 <div className='row d-flex flex-wrap'>
                     <div className='col d-flex flex-wrap gap-5'>
+                        {!loading && !error}
                         {!loading && !error && data && filterData.map((book => (
                             <BookCard
                                 key={nanoid()}
