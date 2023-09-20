@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import {allBooks, allLoading, allError, getData} from "../reducers/booksReducer"
 import MainLayout from "../layouts/MainLayout";
+import CommentArea from "../compontens/comment/CommentArea";
 
 const BookDetail = () => {
 
@@ -29,6 +30,8 @@ const BookDetail = () => {
                 <div>{data[0].price}</div>
                 <div>{data[0].title }</div>
             </div>}
+
+            <CommentArea />
 
             <div>
                 <button>
