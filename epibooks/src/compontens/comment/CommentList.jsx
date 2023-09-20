@@ -1,29 +1,15 @@
 import React, {useEffect} from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
-import {useSelector, useDispatch} from "react-redux";
-import {allComments, isLoading, errors, getComments} from "../../reducers/commentReducer";
+import SingleComment from "./SingleComment";
 
-const CommentList = () => {
-
-    const dispatch = useDispatch()
-
-    const comments = useSelector(allComments)
-    const loading = useSelector(isLoading)
-    const error = useSelector(errors)
-
-    useEffect(() => {
-        dispatch(getComments())
-    }, []);
-
-    console.log(comments)
-
+const CommentList = ({reviewList, index}) => {
     return (
-        <ListGroup>
-            <ListGroup.Item>{}</ListGroup.Item>
-        </ListGroup>
+        
+        <SingleComment
+            author={reviewList.author}
+            comment={reviewList.comment}
+            rate={reviewList.rate}
+        />
     );
 }
-
-
 
 export default CommentList;
