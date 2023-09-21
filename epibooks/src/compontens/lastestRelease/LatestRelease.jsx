@@ -22,8 +22,9 @@ const LatestRelease = () => {
     const formData = useSelector(value)
     const filterData = useSelector(filteredBooks)
 
+
     const getValueFromForm = (value) => {
-        if (formData === "") dispatch(setFilteredBooks([...data]))
+        if (formData === "") dispatch(setFilteredBooks([...data.products]))
         dispatch(setFormValue(value))
     }
 
@@ -34,7 +35,7 @@ const LatestRelease = () => {
     }
 
     useEffect(() => {
-        dispatch(getData("https://epibooks.onrender.com"))
+        dispatch(getData("https://dummyjson.com/products"))
     }, []);
 
     return (
@@ -74,7 +75,7 @@ const LatestRelease = () => {
                             <BookCard
                                 key={nanoid()}
                                 title={book.title}
-                                category={book.category}
+                                category={book.description}
                                 btn="Vai al prodotto"
                                 img={book.img}
                                 asin={book.asin}
