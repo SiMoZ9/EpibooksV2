@@ -35,7 +35,7 @@ const LatestRelease = () => {
     }
 
     useEffect(() => {
-        dispatch(getData("https://dummyjson.com/products"))
+        dispatch(getData("https://epibooks.onrender.com"))
     }, []);
 
     return (

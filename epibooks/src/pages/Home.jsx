@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <MainLayout>
             <Welcome />
-
+            <LatestRelease/>
         </MainLayout>
     );
 }
