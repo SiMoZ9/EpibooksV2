@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import Button from 'react-bootstrap/Button';
@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import {addComment, fetchComments, rate, asin, newComment, addRate, addAsin} from "../../reducers/commentReducer";
+import {addComment, fetchComments, rate, asin, cm, addRate, addAsin} from "../../reducers/commentReducer";
+import {removeListener} from "@reduxjs/toolkit";
 
 
 const API_URL = `https://striveschool-api.herokuapp.com/api/comments/`
@@ -14,11 +15,10 @@ const API_URL = `https://striveschool-api.herokuapp.com/api/comments/`
 const AddComment = () => {
 
     const dispatch = useDispatch()
-    const new_comment = useSelector(newComment)
+    const new_comment = useSelector(cm)
     const rating = useSelector(rate)
     const id = useSelector(asin)
 
-    const ref = document.getElementById('comment-form')
 
     const fetchParams = {
         url: API_URL,
@@ -35,23 +35,29 @@ const AddComment = () => {
             },
         }
     }
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const formData = new FormData(ref)
 
-        dispatch(addRate(formData.get("rate")))
-        dispatch(addComment(formData.get("comment")))
+    useEffect(() => {
+
+    }, []);
+
+    const handleSumbit = (e) => {
+        e.preventDefault()
+        const formData = new FormData(document.getElementById('comment-form'))
+
+        const r = formData.get('rate')
+        const c = formData.get("comment")
+        dispatch(addRate(r))
+        dispatch(addComment(c))
 
         console.log(id)
         console.log(rating)
         console.log(new_comment)
-        //dispatch(fetchComments(fetchParams))
 
-    };
-
+        dispatch(fetchComments(fetchParams))
+    }
 
     return (
-        <Form noValidate onSubmit={handleSubmit} id="comment-form">
+        <Form noValidate id="comment-form" onSubmit={handleSumbit}>
             <Row>
                 <Form.Group as={Col} className="mb-3">
                     <Form.Label>Rating</Form.Label>

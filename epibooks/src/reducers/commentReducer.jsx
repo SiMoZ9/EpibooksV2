@@ -27,12 +27,13 @@ export const fetchComments = createAsyncThunk(
     }
 )
 
-const commentSlice = createSlice({
+export const commentSlice = createSlice({
     name: "comments",
     initialState,
     reducers: {
         addComment: (state, action) => {
             state.newComment.comment = action.payload;
+            console.log(state.newComment.comment)
             return state
         },
         addRate: (state, action) => {
@@ -64,7 +65,7 @@ const commentSlice = createSlice({
 export const {addComment, addAsin, addRate} = commentSlice.actions
 export const allComments = (state) => state.comments.comments
 export const rate = (state) => state.comments.newComment.rate
-export const newComment = (state) => state.comments.newComment.comment
+export const cm = (state) => state.comments.newComment.comment
 export const asin = (state) => state.comments.newComment.elementId
 export const isLoading = (state) => state.comments.isLoading
 export const errors = (state) => state.comments.error
