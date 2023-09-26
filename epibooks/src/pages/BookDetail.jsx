@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import {allBooks, allLoading, allError, getData} from "../reducers/booksReducer"
 import MainLayout from "../layouts/MainLayout";
+import {Button} from "react-bootstrap";
 import CommentArea from "../compontens/comment/CommentArea";
 
 const BookDetail = () => {
@@ -31,14 +32,12 @@ const BookDetail = () => {
                 <div>{data[0].title }</div>
             </div>}
 
-            <CommentArea />
-
             <div>
-                <button>
+                <Button variant="primary">
                     <Link to={"/"}>
                         Torna alla home
                     </Link>
-                </button>
+                </Button>
             </div>
         </div>
         </MainLayout>

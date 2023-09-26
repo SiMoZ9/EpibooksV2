@@ -19,3 +19,15 @@
 .white-text {
     color: white;
 }
+
+
+.card {
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.card.selected {
+    border: 2px solid red;
+}

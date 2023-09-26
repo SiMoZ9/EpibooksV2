@@ -4,20 +4,20 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
     comments: [],
+    newComment: {
+        rate: 0,
+        comment: '',
+        elementId: null,
+    },
     isLoading: false,
     error: null
 }
 
-export const getComments = createAsyncThunk(
-    'comments/getComments',
-    async () => {
+export const fetchComments = createAsyncThunk(
+    'comments/fetchComments',
+    async (url, params) => {
         try {
-            const res = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
-                headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGZhMDBlOGU4NDIyNzAwMTRjMzI2NzciLCJpYXQiOjE2OTUyMDg1OTgsImV4cCI6MTY5NjQxODE5OH0.8j8CN3VPaLMqDeEc4uShHotCtwP30eLdEAZAaUk88J0"
-                }
-            })
-
+            const res = await fetch(url, params)
             return await res.json()
         } catch (e) {
             return e
@@ -28,24 +28,32 @@ export const getComments = createAsyncThunk(
 const commentSlice = createSlice({
     name: "comments",
     initialState,
+    reducers: {
+        addComment: (state, action) => {
+            state.newComment = action.payload;
+            return state
+        }
+    },
     extraReducers: builder => {
         builder
-            .addCase(getComments.pending, state => {
+            .addCase(fetchComments.pending, state => {
                 state.isLoading = true
             })
 
-            .addCase(getComments.fulfilled, (state, action) => {
+            .addCase(fetchComments.fulfilled, (state, action) => {
                 state.comments = action.payload
                 state.isLoading = false
             })
 
-            .addCase(getComments.rejected, (state, action)=> {
+            .addCase(fetchComments.rejected, (state, action)=> {
                 state.error = action.payload
             })
     }
 })
 
+export const {addComment} = commentSlice.actions
 export const allComments = (state) => state.comments.comments
+export const new_comment = (state) => state.comments.newComment
 export const isLoading = (state) => state.comments.isLoading
 export const errors = (state) => state.comments.error
 export default commentSlice.reducer

@@ -11,13 +11,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Provider} from "react-redux"
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import booksReducerState from "./reducers/booksReducer"
-import searchReducerState from "./reducers/searchReducer"
 import commentReducerState from "./reducers/commentReducer";
 
 const reducer = combineReducers({
     bookStore: booksReducerState,
-    filteredSearch: searchReducerState,
-    comments: commentReducerState
+    comments: commentReducerState,
 })
 const store = configureStore(
     {

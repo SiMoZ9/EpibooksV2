@@ -5,11 +5,13 @@ import BeatLoader from "react-spinners/BeatLoader"
 import {nanoid} from "nanoid";
 
 import {useDispatch, useSelector} from "react-redux";
-import {allBooks, allLoading, allError, getData} from "../../reducers/booksReducer";
-import {value, filteredBooks, setFormValue, setFilteredBooks} from "../../reducers/searchReducer";
+import {allBooks, allLoading, allError, getData, boolSelected} from "../../reducers/booksReducer";
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import SingleComment from "../comment/SingleComment";
+import SingleBook from "../singleBook/SingleBook";
+import CommentArea from "../comment/CommentArea";
 
 const LatestRelease = () => {
 
@@ -19,24 +21,28 @@ const LatestRelease = () => {
     const loading = useSelector(allLoading)
     const error = useSelector(allError)
 
-    const formData = useSelector(value)
-    const filterData = useSelector(filteredBooks)
+    const [filteredBooks, setFilteredBooks] = useState([])
+    const [formValue, setFormValue] = useState("")
 
+
+    console.log(filteredBooks)
 
     const getValueFromForm = (value) => {
-        if (formData === "") dispatch(setFilteredBooks([...data.products]))
-        dispatch(setFormValue(value))
+        if (formValue === "") setFilteredBooks(data)
+        setFormValue(value)
     }
 
      const submitFiltered = (e) => {
         e.preventDefault()
-         const booksFiltered = filterData.filter(book => book.title.toLowerCase().includes(formData.toLowerCase()))
-        dispatch(setFilteredBooks(booksFiltered))
+         const booksFiltered = filteredBooks.filter(book => book.title.toLowerCase().includes(formValue.toLowerCase()))
+        setFilteredBooks(booksFiltered)
     }
+
 
     useEffect(() => {
         dispatch(getData("https://epibooks.onrender.com"))
-    }, []);
+        setFilteredBooks([...data])
+    }, [formValue]);
 
     return (
         <div>
@@ -71,20 +77,16 @@ const LatestRelease = () => {
                 <div className='row d-flex flex-wrap'>
                     <div className='col d-flex flex-wrap gap-5'>
                         {!loading && !error}
-                        {!loading && !error && data && filterData.map((book => (
-                            <BookCard
+                        {!loading && !error && data && filteredBooks.map((book => (
+                            <SingleBook
                                 key={nanoid()}
-                                title={book.title}
-                                category={book.description}
-                                btn="Vai al prodotto"
-                                img={book.img}
-                                asin={book.asin}
+                                book={book}
                             />
                         )))
                         }
                     </div>
                 </div>
-
+                <CommentArea />
             </div>
         </div>
     );

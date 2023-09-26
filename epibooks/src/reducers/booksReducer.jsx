@@ -5,7 +5,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
     books: [],
     isLoading: false,
-    error: null
+    error: null,
+    selected: false,
 }
 
 export const getData = createAsyncThunk(
@@ -23,6 +24,12 @@ async (url) => {
 const bookSlice = createSlice({
     name: 'getBooks',
     initialState,
+    reducers: {
+        selectCard: (state, action) => {
+            state.selected = !state.selected
+            return state
+        }
+    },
     extraReducers: builder => {
         // si definiscono 3 casi delle promises
         builder
@@ -41,8 +48,11 @@ const bookSlice = createSlice({
 })
 
 // devo esportare i 3 singoli stati
+
+export const {selectCard} = bookSlice.actions
 export const allBooks = (state) => state.bookStore.books
 export const allLoading = (state) => state.bookStore.isLoading
 export const allError = (state) => state.bookStore.error
+export const boolSelected = (state) => state.bookStore.selected
 
 export default bookSlice.reducer
