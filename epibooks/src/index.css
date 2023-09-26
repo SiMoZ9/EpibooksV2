@@ -9,6 +9,7 @@
 
 .bg-img {
     background-image: url(../imgs/welcome-bg.jpg);
+    opacity: 0.5;
     object-fit: cover;
 }
 

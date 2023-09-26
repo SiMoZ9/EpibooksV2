@@ -11,9 +11,10 @@ const initialState = {
 
 export const getData = createAsyncThunk(
     'books/getAllBooks',
-async (url) => {
+async (userData) => {
+        const {url, params} = userData;
     try {
-        const res = await fetch(url)
+        const res = await fetch(url, params)
         return await res.json()
     } catch (e) {
         console.log(e)

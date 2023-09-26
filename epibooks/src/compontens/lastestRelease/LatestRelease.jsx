@@ -9,11 +9,11 @@ import {allBooks, allLoading, allError, getData, boolSelected} from "../../reduc
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import SingleComment from "../comment/SingleComment";
 import SingleBook from "../singleBook/SingleBook";
 import CommentArea from "../comment/CommentArea";
 
 const LatestRelease = () => {
+    const BOOKS_API_URL = "https://epibooks.onrender.com"
 
     const dispatch = useDispatch()
 
@@ -38,11 +38,18 @@ const LatestRelease = () => {
         setFilteredBooks(booksFiltered)
     }
 
+    const fetchParams = {
+        url: BOOKS_API_URL,
+        params: {
+            method: 'GET'
+        }
+    }
+
 
     useEffect(() => {
-        dispatch(getData("https://epibooks.onrender.com"))
+        dispatch(getData(fetchParams))
         setFilteredBooks([...data])
-    }, [formValue]);
+    }, []);
 
     return (
         <div>
@@ -74,8 +81,9 @@ const LatestRelease = () => {
             </Form>
 
             <div className="container">
+                <CommentArea/>
                 <div className='row d-flex flex-wrap'>
-                    <div className='col d-flex flex-wrap gap-5'>
+                    <div className='col d-flex flex-wrap'>
                         {!loading && !error}
                         {!loading && !error && data && filteredBooks.map((book => (
                             <SingleBook
@@ -86,7 +94,7 @@ const LatestRelease = () => {
                         }
                     </div>
                 </div>
-                <CommentArea />
+
             </div>
         </div>
     );

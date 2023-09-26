@@ -7,7 +7,7 @@ const initialState = {
     newComment: {
         rate: 0,
         comment: '',
-        elementId: null,
+        elementId: '',
     },
     isLoading: false,
     error: null
@@ -15,12 +15,14 @@ const initialState = {
 
 export const fetchComments = createAsyncThunk(
     'comments/fetchComments',
-    async (url, params) => {
+    async (userData) => {
+        const {url, params} = userData;
+        console.log(params)
         try {
             const res = await fetch(url, params)
             return await res.json()
         } catch (e) {
-            return e
+            console.log(e)
         }
     }
 )
@@ -30,7 +32,15 @@ const commentSlice = createSlice({
     initialState,
     reducers: {
         addComment: (state, action) => {
-            state.newComment = action.payload;
+            state.newComment.comment = action.payload;
+            return state
+        },
+        addRate: (state, action) => {
+            state.newComment.rate = action.payload;
+            return state
+        },
+        addAsin: (state, action) => {
+            state.newComment.elementId = action.payload;
             return state
         }
     },
@@ -51,9 +61,11 @@ const commentSlice = createSlice({
     }
 })
 
-export const {addComment} = commentSlice.actions
+export const {addComment, addAsin, addRate} = commentSlice.actions
 export const allComments = (state) => state.comments.comments
-export const new_comment = (state) => state.comments.newComment
+export const rate = (state) => state.comments.newComment.rate
+export const newComment = (state) => state.comments.newComment.comment
+export const asin = (state) => state.comments.newComment.elementId
 export const isLoading = (state) => state.comments.isLoading
 export const errors = (state) => state.comments.error
 export default commentSlice.reducer

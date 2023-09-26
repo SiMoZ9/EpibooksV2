@@ -5,8 +5,9 @@ import {allComments, errors, fetchComments, isLoading} from "../../reducers/comm
 import {useParams} from "react-router-dom";
 import AddComment from "./AddComment";
 import {boolSelected} from "../../reducers/booksReducer";
-const CommentArea = ({bookId}) => {
-    const dispatch = useDispatch()
+import {nanoid} from "nanoid";
+
+const CommentArea = () => {
 
     const comments = useSelector(allComments)
     const loading = useSelector(isLoading)
@@ -14,31 +15,26 @@ const CommentArea = ({bookId}) => {
 
     const isSelected = useSelector(boolSelected)
 
-    const fetchParams = {
-        method: 'GET',
-        headers: {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTExYmZmYmIyYjJhZTAwMTRiMzQ3MDEiLCJpYXQiOjE2OTU2NjIwNzUsImV4cCI6MTY5Njg3MTY3NX0.CJKSOlVH1HPTz9Tj557IC53bI7J628G5IFama7a1if0"
-        },
-    }
 
     const myStyle = {
-        display: isSelected ? 'flex' : 'none'
+        display: isSelected ? 'flex' : 'none',
+        flexDirection: 'column',
+        alignItems: 'center',
     }
 
-    useEffect(() => {
-        dispatch(fetchComments(`https://striveschool-api.herokuapp.com/api/comments/${bookId}`, fetchParams))
-    }, []);
+    console.log(isSelected)
 
 
     return (
         <div style={myStyle}>
+            <AddComment/>
             {!loading && !error && comments.map((i) => (
                 <CommentList
+                    key={nanoid()}
                     reviewList={i}
                 />
             ))
             }
-            <AddComment bookId={bookId}/>
         </div>
     );
 };

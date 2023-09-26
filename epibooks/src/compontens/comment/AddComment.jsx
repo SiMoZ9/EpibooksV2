@@ -1,76 +1,76 @@
-import React, {useEffect} from "react";
+import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import {addComment, fetchComments, new_comment} from "../../reducers/commentReducer";
-import {useParams} from "react-router-dom";
+import {addComment, fetchComments, rate, asin, newComment, addRate, addAsin} from "../../reducers/commentReducer";
 
 
 const API_URL = `https://striveschool-api.herokuapp.com/api/comments/`
 
-const AddComment = ({bookId}) => {
+const AddComment = () => {
 
     const dispatch = useDispatch()
-    const newComment = useSelector(new_comment)
-    const getValueFromForm = (v) => {
-        dispatch(addComment(v))
-    }
+    const new_comment = useSelector(newComment)
+    const rating = useSelector(rate)
+    const id = useSelector(asin)
+
+    const ref = document.getElementById('comment-form')
 
     const fetchParams = {
-        method: 'PUT',
-        headers: {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTExYmZmYmIyYjJhZTAwMTRiMzQ3MDEiLCJpYXQiOjE2OTU2NjIwNzUsImV4cCI6MTY5Njg3MTY3NX0.CJKSOlVH1HPTz9Tj557IC53bI7J628G5IFama7a1if0",
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify()
+        url: API_URL,
+        params: {
+            method: 'POST',
+            body: JSON.stringify({
+                comment: new_comment,
+                rate: rating,
+                elementId: id
+            }),
+            headers: {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGZhMDBlOGU4NDIyNzAwMTRjMzI2NzciLCJpYXQiOjE2OTU3MzMxNTgsImV4cCI6MTY5Njk0Mjc1OH0.z-Fxi9IbskrELa5IM7x6ua1Cvdx1FFmvztf_1R_Pwkg",
+                'Content-Type': 'application/json'
+            },
+        }
     }
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        dispatch(fetchComments(API_URL+bookId, fetchParams))
-        console.log(newComment)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const formData = new FormData(ref)
+
+        dispatch(addRate(formData.get("rate")))
+        dispatch(addComment(formData.get("comment")))
+
+        console.log(id)
+        console.log(rating)
+        console.log(new_comment)
+        //dispatch(fetchComments(fetchParams))
+
     };
 
+
     return (
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit} id="comment-form">
             <Row>
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Username</Form.Label>
+                <Form.Group as={Col} className="mb-3">
+                    <Form.Label>Rating</Form.Label>
                     <InputGroup hasValidation>
                         <Form.Control
                             type="text"
-                            placeholder="Username"
+                            name="rate"
+                            placeholder="Scegli un valore tra 1 e 5"
                             aria-describedby="inputGroupPrepend"
                             required
-                            onChange={(e) => getValueFromForm(e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Scegli uno username
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group as={Col} md="4" >
-                    <Form.Label>Email</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            type="email"
-                            placeholder="Email"
-                            aria-describedby="inputGroupPrepend"
-                            required
-                            onChange={(e) => getValueFromForm(e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Email non valida
+                            Scegli un valore da 1 a 5
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Scrivi un commento</Form.Label>
-                    <Form.Control as="textarea" rows={3} />
+                    <Form.Control as="textarea" rows={3} name="comment"/>
                 </Form.Group>
             </Row>
             <Row className="mb-3">
